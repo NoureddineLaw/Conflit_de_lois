@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>تحليل مقياس قانون الشركات - تفاعلي</title>
+  <style>
+    :root {
+      --green-dark: #004d40;
+      --green: #00796b;
+      --accent: #00695c;
+      --light-bg: #f9f9f9;
+      --card-bg: #fff;
+      --result-green: #e8f5e9;
+    }
+    body {
+      font-family: "Amiri", serif;
+      line-height: 1.8;
+      background: var(--light-bg);
+      color: #222;
+      margin: 0;
+      padding: 0 1em 2em;
+    }
+    h1, h2, h3 { color: var(--green-dark); margin-top: 0.2em; }
+    h1 { border-bottom: 2px solid var(--green); padding-bottom: .4em; }
+
+    section {
+      background: var(--card-bg);
+      padding: 1.2em;
+      margin-bottom: 1.2em;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    /* شريط التنقل الثابت */
+    nav {
+      background: var(--green);
+      color: #fff;
+      padding: .8em;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+    nav a {
+      color: #fff;
+      margin: 0 .6em;
+      text-decoration: none;
+      font-weight: bold;
+      transition: opacity .2s ease;
+    }
+    nav a:hover { opacity: 0.8; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: center;
+      margin-top: .6em;
+    }
+    th, td { padding: 8px; border: 1px solid #d0d0d0; }
+    thead th { background: var(--accent); color: #fff; }
+    tbody tr:nth-child(even) { background: #f7f7f7; }
+
+    /* أزرار */
+    .controls { text-align:center; margin: .8em 0; }
+    input[type="text"] {
+      padding: 8px;
+      width: 60%;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 8px 16px;
+      margin: 6px 4px;
+      background: var(--green-dark);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background .25s ease;
+    }
+    button:hover { background: var(--green); }
+    .small { padding:6px 10px; font-size: 0.95em; }
+
+    /* QCM */
+    .qcm-question {
+      background: #fff;
+      padding: 1em;
+      margin: 1em 0;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      text-align: right;
+    }
+    .option {
+      display:block;
+      margin: 6px 0;
+      padding: 8px;
+      cursor: pointer;
+      border-radius: 6px;
+      border:1px solid #e6e6e6;
+      text-align: right;
+    }
+    .option:hover { background: #eaf7f3; }
+    .correct { background: #c8e6c9 !important; border-color: #8bc34a !important; }
+    .wrong { background: #ffcdd2 !important; border-color: #e57373 !important; }
+
+    /* مربع النتيجة */
+    #resultBox {
+      background: var(--result-green);
+      padding: 1em;
+      margin: 1em auto 2em;
+      border-radius: 8px;
+      max-width: 460px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    }
+    #resultBox button { display: inline-block; width: auto; margin: .6em .4em; }
+
+    /* زر الرجوع الثابت */
+    #homeButton {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--green);
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      padding: 10px 16px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+      cursor: pointer;
+      font-size: 0.95em;
+      z-index: 1000;
+      transition: all .3s ease;
+    }
+    #homeButton:hover {
+      background: var(--green-dark);
+      transform: translateY(-3px);
+    }
+
+    /* عند الطباعة */
+    @media print {
+      nav, .controls, #homeButton { display:none; }
+      body { margin: 0.5em; }
+      section { box-shadow: none; border: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>تحليل مقياس قانون الشركات</h1>
+
+  <!-- شريط التنقل -->
+  <nav>
+    <a href="#intro">مقدمة</a> ·
+    <a href="#civil-vs-commercial">تفرقة الشركات</a> ·
+    <a href="#general-reqs">الأركان العامة</a> ·
+    <a href="#specific-reqs">الأركان الخاصة</a> ·
+    <a href="#formalities">الشكلية</a> ·
+    <a href="#types-of-companies">أنواع الشركات</a> ·
+    <a href="#nullity">البطلان</a> ·
+    <a href="#dissolution">الانقضاء</a> ·
+    <a href="#legal-articles">المواد القانونية</a>
+  </nav>
+
+  <section id="intro">
+    <h2>المقدمة والتعريف</h2>
+    <p>الشركة عقد يلتزم بمقتضاه شخصان أو أكثر بالمساهمة في مشروع مشترك لتقاسم الأرباح أو الخسائر وفق المادة 416 من القانون المدني الجزائري.</p>
+  </section>
+
+  <section id="civil-vs-commercial">
+    <h2>التمييز بين الشركات المدنية والتجارية</h2>
+    <p>تُعتبر تجارية بحكم شكلها: المساهمة، التوصية بالأسهم، وذات المسؤولية المحدودة (م 544 تجاري).</p>
+  </section>
+
+  <section id="general-reqs">
+    <h2>الأركان الموضوعية العامة</h2>
+    <ul>
+      <li>الرضا الصحيح (م 82–90 مدني)</li>
+      <li>الأهلية القانونية (م 40 مدني)</li>
+      <li>محل وسبب مشروعان (م 97–98 مدني)</li>
+    </ul>
+  </section>
+
+  <section id="specific-reqs">
+    <h2>الأركان الموضوعية الخاصة</h2>
+    <ul>
+      <li>تعدد الشركاء</li>
+      <li>تقديم الحصص</li>
+      <li>نية المشاركة واقتسام الأرباح</li>
+    </ul>
+  </section>
+
+  <section id="formalities">
+    <h2>الأركان الشكلية</h2>
+    <p>تُشترط الكتابة، الشهر، والقيد بالسجل التجاري لاكتساب الشخصية المعنوية (م 417 و549).</p>
+  </section>
+
+  <section id="types-of-companies">
+    <h2>أنواع الشركات</h2>
+    <table>
+      <thead><tr><th>النوع</th><th>الخصائص</th><th>المواد المرجعية</th></tr></thead>
+      <tbody>
+        <tr><td>شركات الأشخاص</td><td>اعتبار شخصي، مسؤولية غير محدودة</td><td>551–573 تجاري</td></tr>
+        <tr><td>شركات الأموال</td><td>اعتبار مالي، مسؤولية محدودة</td><td>592–715 تجاري</td></tr>
+        <tr><td>شركات مختلطة</td><td>توصية بالأسهم</td><td>717–744 تجاري</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="nullity">
+    <h2>البطلان وآثاره</h2>
+    <p>يكون البطلان مطلقًا عند غياب ركن جوهري، ونسبيًا عند الخلل في الرضا أو الأهلية. تُراعى الشركة الفعلية لحماية الغير (م 102–106 مدني).</p>
+  </section>
+
+  <section id="dissolution">
+    <h2>انقضاء الشركة</h2>
+    <p>تنقضي بانتهاء المدة، أو تحقق الغرض، أو إفلاسها، وتستمر شخصيتها لغرض التصفية (م 717 مدني).</p>
+  </section>
+
+  <section id="legal-articles">
+    <h2>جدول المواد القانونية</h2>
+    <div class="controls">
+      <input type="text" id="searchBox" placeholder="ابحث عن مادة..." onkeyup="searchTable()" />
+      <button class="small" onclick="window.scrollTo({top:0,behavior:'smooth'})">رجوع للأعلى</button>
+      <button class="small" onclick="window.print()">تحميل كـ PDF</button>
+      <button class="small" onclick="showQCM()">QCM</button>
+    </div>
+    <table id="lawTable">
+      <thead><tr><th>المادة</th><th>القانون</th><th>الموضوع</th></tr></thead>
+      <tbody>
+        <tr><td>416</td><td>مدني</td><td>تعريف الشركة</td></tr>
+        <tr><td>417</td><td>مدني</td><td>الكتابة</td></tr>
+        <tr><td>544</td><td>تجاري</td><td>تجارية بحكم الشكل</td></tr>
+        <tr><td>549</td><td>تجاري</td><td>القيد في السجل التجاري</td></tr>
+        <tr><td>717</td><td>مدني</td><td>التصفية</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- QCM -->
+  <section id="qcmSection" style="display:none;">
+    <h2>اختبار QCM في قانون الشركات</h2>
+    <div id="qcmContainer"></div>
+    <div id="resultBox" style="display:none;">
+      <button id="showResultBtn" onclick="showResult()">عرض النتيجة</button>
+      <p id="resultDisplay" style="font-weight:700; margin:.8em 0;"></p>
+      <button onclick="retryQCM()">إعادة المحاولة</button>
+      <button onclick="goHome()">رجوع إلى الصفحة الرئيسية</button>
+    </div>
+  </section>
+
+  <!-- زر الرجوع الثابت -->
+  <button id="homeButton" onclick="window.scrollTo({top:0,behavior:'smooth'})">🏠 رجوع للرئيسية</button>
+
+  <script>
+    const qcmData = [
+      { q: 'ما هو تعريف عقد الشركة؟', a:['اتفاق لتحقيق الربح','قرض تجاري','تبرع','اتفاق للتوظيف'], correct:0 },
+      { q: 'من الأركان الشكلية للشركة:', a:['الكتابة','النية','السبب','الأهلية'], correct:0 },
+      { q: 'الشركة ذات المسؤولية المحدودة هي:', a:['شخص واحد','شركة أموال','شركة مدنية','شركة عامة'], correct:1 },
+      { q: 'الشخصية المعنوية تنشأ من:', a:['القيد بالسجل التجاري','التوقيع','الموافقة الإدارية','النشر فقط'], correct:0 },
+      { q: 'تعدد الشركاء يعد من:', a:['الأركان الخاصة','الأركان العامة','الشكلية','النتائج'], correct:0 },
+      { q: 'في شركة التضامن تكون المسؤولية:', a:['محدودة','غير محدودة','منعدمة','نسبية'], correct:1 },
+      { q: 'البطلان النسبي يرتبط بـ:', a:['الرضا والأهلية','الكتابة','الشهر','القيد'], correct:0 },
+      { q: 'التصفية تبدأ عند:', a:['التأسيس','الانقضاء','الربح','التوقف'], correct:1 },
+      { q: 'الشركات التجارية بحكم الشكل تشمل:', a:['المساهمة والتوصية بالأسهم','المدنية','الفردية','التضامن'], correct:0 },
+      { q: 'الشركة ذات الشخص الواحد:', a:['غير قانونية','مسموح بها','تعاونية','جمعية'], correct:1 }
+    ];
+
+    let displayedQuestions = [], selectedAnswers = [];
+
+    function shuffle(array) {
+      const arr = array.slice();
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function showQCM() {
+      document.getElementById('qcmSection').style.display = 'block';
+      document.getElementById('homeButton').style.display = 'none'; // إخفاء الزر أثناء QCM
+      document.getElementById('qcmContainer').innerHTML = '';
+      document.getElementById('resultBox').style.display = 'none';
+      loadQuestions();
+      setTimeout(() => {
+        const firstQ = document.querySelector('.qcm-question');
+        if (firstQ) firstQ.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 300);
+    }
+
+    function loadQuestions() {
+      const container = document.getElementById('qcmContainer');
+      container.innerHTML = '';
+      selectedAnswers = [];
+      displayedQuestions = shuffle(qcmData);
+      displayedQuestions.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'qcm-question';
+        div.innerHTML = `<strong>${index + 1}. ${item.q}</strong>`;
+        item.a.forEach((ans, i) => {
+          const opt = document.createElement('div');
+          opt.className = 'option';
+          opt.innerText = ans;
+          opt.onclick = function() {
+            const allOpts = div.querySelectorAll('.option');
+            allOpts.forEach(o => o.style.pointerEvents = 'none');
+            selectedAnswers[index] = i;
+            if (i === item.correct) this.classList.add('correct');
+            else { this.classList.add('wrong'); allOpts[item.correct].classList.add('correct'); }
+            document.getElementById('resultBox').style.display = 'block';
+          };
+          div.appendChild(opt);
+        });
+        container.appendChild(div);
+      });
+    }
+
+    function showResult() {
+      let correct = 0;
+      for (let i = 0; i < displayedQuestions.length; i++) {
+        if (selectedAnswers[i] === displayedQuestions[i].correct) correct++;
+      }
+      const percent = Math.round((correct / displayedQuestions.length) * 100);
+      document.getElementById('resultDisplay').innerText = `النتيجة: ${correct}/${displayedQuestions.length} (${percent}%)`;
+    }
+
+    function retryQCM() {
+      loadQuestions();
+      document.getElementById('resultDisplay').innerText = '';
+    }
+
+    function goHome() {
+      document.getElementById('qcmSection').style.display = 'none';
+      document.getElementById('homeButton').style.display = 'block'; // إظهار الزر مجددًا
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function searchTable() {
+      const filter = document.getElementById('searchBox').value.toLowerCase();
+      document.querySelectorAll('#lawTable tbody tr').forEach(r => {
+        r.style.display = r.textContent.toLowerCase().includes(filter) ? '' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>
